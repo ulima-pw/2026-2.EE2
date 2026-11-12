@@ -1,0 +1,29 @@
+# PostgreSQL para los ejercicios 2, 4 y 6 al 10.
+#   Levantar:   docker compose up -d
+#   Consola SQL: docker exec -it talleres-pg psql -U postgres -d talleres
+#   Detener:    docker compose down        (conserva los datos)
+#   Reiniciar de cero: docker compose down -v
+services:
+  postgres:
+    image: postgres:18
+    container_name: talleres-pg
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: talleres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "hquintan@ulima.edu.pe"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+    ports:
+      - "3001:80"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
